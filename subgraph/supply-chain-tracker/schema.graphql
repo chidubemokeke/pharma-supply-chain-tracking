@@ -5,3 +5,9 @@ type Batch @entity {
   expiryDate: BigInt!
   status: String!
 }
+
+type TemperatureEvent @entity {
+  id: ID!
+  batchId: ID!
+  temperature: BigInt!
+}

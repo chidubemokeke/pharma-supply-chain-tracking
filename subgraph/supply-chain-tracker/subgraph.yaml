@@ -17,6 +17,7 @@ dataSources:
       language: wasm/assemblyscript
       entities:
         - Batch
+        - TemperatureEvent
       abis:
         - name: DrugBatch
           file: ./abis/DrugBatch.json
@@ -25,4 +26,6 @@ dataSources:
           handler: handleBatchCreated
         - event: BatchUpdated(indexed uint256, string)
           handler: handleBatchUpdated
+        - event: TemperatureExceeded(indexed uint256, uint256)
+          handler: handleTemperatureExceeded
       file: ./src/mapping.ts
