@@ -1,0 +1,28 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: DrugBatch
+    network: mainnet
+    source:
+      address: "0x8f8221aFbB33998d8584A2B05749bA73c37a938a"
+      abi: DrugBatch
+      startBlock: 4345153
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Batch
+      abis:
+        - name: DrugBatch
+          file: ./abis/DrugBatch.json
+      eventHandlers:
+        - event: BatchCreated(indexed uint256, string, uint256, uint256)
+          handler: handleBatchCreated
+        - event: BatchUpdated(indexed uint256, string)
+          handler: handleBatchUpdated
+      file: ./src/mapping.ts
