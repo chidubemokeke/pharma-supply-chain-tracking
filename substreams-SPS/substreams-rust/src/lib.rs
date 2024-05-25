@@ -1,3 +1,3 @@
-extern crate substreams;
+extern crate substreams;  // Import the Substreams crate
 
-mod main;
+mod main;  // Import the main module

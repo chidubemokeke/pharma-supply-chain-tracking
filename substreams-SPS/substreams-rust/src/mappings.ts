@@ -7,29 +7,29 @@ import { Batch, TemperatureEvent } from "../generated/schema"; // Import entity 
 
 // Handler function for the BatchCreated event
 export function handleBatchCreated(event: BatchCreated): void {
-  let batch = new Batch(event.params.id.toString());
-  batch.manufacturer = event.params.manufacturer;
-  batch.manufactureDate = event.params.manufactureDate;
-  batch.expiryDate = event.params.expiryDate;
-  batch.status = "Created";
-  batch.save();
+  let batch = new Batch(event.params.id.toString()); // Create a new Batch entity
+  batch.manufacturer = event.params.manufacturer; // Set the manufacturer field
+  batch.manufactureDate = event.params.manufactureDate; // Set the manufacture date field
+  batch.expiryDate = event.params.expiryDate; // Set the expiry date field
+  batch.status = "Created"; // Set the status field
+  batch.save(); // Save the entity to the store
 }
 
 // Handler function for the BatchUpdated event
 export function handleBatchUpdated(event: BatchUpdated): void {
-  let batch = Batch.load(event.params.id.toString());
+  let batch = Batch.load(event.params.id.toString()); // Load the existing Batch entity
   if (batch == null) {
-    return;
+    return; // If the batch doesn't exist, return early
   }
-  batch.status = event.params.status;
-  batch.save();
+  batch.status = event.params.status; // Update the status field
+  batch.save(); // Save the updated entity to the store
 }
 
 // Handler function for the TemperatureExceeded event
 export function handleTemperatureExceeded(event: TemperatureExceeded): void {
-  let temperatureEvent = new TemperatureEvent(event.transaction.hash.toHex());
-  temperatureEvent.batchId = event.params.id.toString();
-  temperatureEvent.temperature = event.params.temperature;
-  temperatureEvent.timestamp = event.block.timestamp;
-  temperatureEvent.save();
+  let temperatureEvent = new TemperatureEvent(event.transaction.hash.toHex()); // Create a new TemperatureEvent entity
+  temperatureEvent.batchId = event.params.id.toString(); // Set the batch ID field
+  temperatureEvent.temperature = event.params.temperature; // Set the temperature field
+  temperatureEvent.timestamp = event.block.timestamp; // Set the timestamp field
+  temperatureEvent.save(); // Save the entity to the store
 }
