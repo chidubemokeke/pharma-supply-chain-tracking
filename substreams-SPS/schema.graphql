@@ -1,0 +1,18 @@
+type BatchCreatedEvent @entity {
+  id: ID!
+  manufacturer: String!
+  manufactureDate: Int!
+  expiryDate: Int!
+}
+
+type BatchUpdatedEvent @entity {
+  id: ID!
+  status: String!
+}
+
+type TemperatureExceededEvent @entity {
+  id: ID!
+  batchId: String!
+  temperature: Int!
+  timestamp: Int!
+}

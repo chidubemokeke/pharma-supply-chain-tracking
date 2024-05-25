@@ -1,0 +1,36 @@
+specVersion: 0.1.0
+description: Substreams configuration for pharmaceutical batch tracking
+repository: https://github.com/yourusername/pharma-supply-chain-tracker
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: DrugBatch
+    network: rinkeby
+    source:
+      address: "0xYourContractAddress"
+      abi: DrugBatch
+    modules:
+      - name: extractBatchCreated
+        description: Extracts BatchCreated events
+        kind: map
+        inputs:
+          - source: "batchCreated"
+        output:
+          type: BatchCreatedEvent
+
+      - name: extractBatchUpdated
+        description: Extracts BatchUpdated events
+        kind: map
+        inputs:
+          - source: "batchUpdated"
+        output:
+          type: BatchUpdatedEvent
+
+      - name: extractTemperatureExceeded
+        description: Extracts TemperatureExceeded events
+        kind: map
+        inputs:
+          - source: "temperatureExceeded"
+        output:
+          type: TemperatureExceededEvent

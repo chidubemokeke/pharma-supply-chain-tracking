@@ -2,8 +2,8 @@ const EventEmitter = require("events"); // Import EventEmitter to create a custo
 
 class SensorSimulator extends EventEmitter {
   constructor() {
-    super(); // Call the parent class constructor
-    this.start(); // Start the simulation
+    super(); // Call parent class constructor
+    this.start(); // Start simulation
   }
 
   // Method to start emitting simulated sensor data
@@ -16,9 +16,9 @@ class SensorSimulator extends EventEmitter {
         humidity: Math.random() * 100, // Random humidity between 0 and 100
         timestamp: Date.now(), // Current timestamp
       };
-      this.emit("data", data); // Emit the 'data' event with the generated data
+      this.emit("data", data); // Emit 'data' event with generated data
     }, 5000); // Emit data every 5 seconds
   }
 }
 
-module.exports = SensorSimulator; // Export the SensorSimulator class
+module.exports = SensorSimulator; // Export SensorSimulator class

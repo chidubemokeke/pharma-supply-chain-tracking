@@ -1,0 +1,8 @@
+[package]
+name = "pharma_supply_chain_substreams"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+substreams = "0.1.0"
+substreams-ethereum = "0.1.0"

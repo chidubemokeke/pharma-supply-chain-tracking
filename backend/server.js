@@ -1,57 +1,54 @@
-// Import necessary modules
-const express = require("express"); // Express framework for creating the server
+const express = require("express"); // Import Express framework
 const SensorSimulator = require("./sensorSimulator"); // Import the sensor simulator
+const { ethers } = require("ethers"); // Import ethers.js for interacting with the blockchain
+require("dotenv").config(); // Load environment variables
 
-// Initialize Express app
-const app = express();
-const port = process.env.PORT || 3000; // Set the port from environment variables or default to 3000
+const app = express(); // Initialize Express app
+const port = process.env.PORT || 3000; // Set port from environment variables or default to 3000
 
-// Middleware to parse JSON requests
-app.use(express.json());
+app.use(express.json()); // Middleware to parse JSON requests
 
 // Endpoint to receive data from IoT sensors
 app.post("/sensor-data", async (req, res) => {
-  const data = req.body; // Get the data from the request body
+  const data = req.body; // Get data from request body
   console.log("Received sensor data:", data);
 
-  // Check if the temperature exceeds the threshold
+  // Check if temperature exceeds threshold
   if (data.temperature > 30) {
-    // Call the function to record temperature on the blockchain
+    // Call function to record temperature on blockchain
     const tx = await recordTemperature(data.batchId, data.temperature);
     console.log("Temperature exceeded, transaction hash:", tx.hash);
   }
 
-  res.status(200).send("Sensor data processed"); // Send a response back to the client
+  res.status(200).send("Sensor data processed"); // Send response to client
 });
 
-// Function to interact with the smart contract and record temperature
+// Function to interact with smart contract and record temperature
 async function recordTemperature(batchId, temperature) {
-  const ethers = require("ethers"); // Import ethers.js for interacting with the blockchain
   const provider = new ethers.providers.InfuraProvider(
     "rinkeby",
     process.env.INFURA_PROJECT_ID
   ); // Connect to Infura
-  const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider); // Create a wallet instance from the private key
+  const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider); // Create wallet instance from private key
   const contractAddress = process.env.CONTRACT_ADDRESS; // Smart contract address
   const contractABI = [
     /* Your Contract ABI here */
   ]; // Smart contract ABI
-  const contract = new ethers.Contract(contractAddress, contractABI, wallet); // Create a contract instance
-  return await contract.recordTemperature(batchId, temperature); // Call the smart contract method
+  const contract = new ethers.Contract(contractAddress, contractABI, wallet); // Create contract instance
+
+  return await contract.recordTemperature(batchId, temperature); // Call smart contract method
 }
 
 // Start the Express server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 
-  // Initialize the sensor simulator
-  const sensorSimulator = new SensorSimulator();
-  // Listen for 'data' events from the sensor simulator
+  const sensorSimulator = new SensorSimulator(); // Initialize sensor simulator
   sensorSimulator.on("data", async (data) => {
+    // Listen for 'data' events from simulator
     console.log("Simulated sensor data:", data);
     try {
-      // Record the temperature on the blockchain
-      await recordTemperature(data.batchId, data.temperature);
+      await recordTemperature(data.batchId, data.temperature); // Record temperature on blockchain
       console.log("Simulated temperature recorded on blockchain");
     } catch (error) {
       console.error("Error recording temperature on blockchain:", error);
