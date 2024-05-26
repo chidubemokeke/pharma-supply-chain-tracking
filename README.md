@@ -38,7 +38,9 @@ pharma-supply-chain-tracker
 ├── backend
 │   ├── server.js                # Main entry point for the backend server
 │   ├── sensorSimulator.js       # Simulates IoT sensor data
-│   └── .env                     # Environment variables for backend configuration
+│   └── data
+│       ├── drug_batches.csv     # Sample dataset CSV
+│       └── drug_batches.json    # Sample dataset JSON
 │
 ├── contracts
 │   └── DrugBatch.sol            # Smart contract for managing drug batches

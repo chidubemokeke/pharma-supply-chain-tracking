@@ -1,0 +1,13 @@
+batch_id,manufacturer,manufacture_date,expiry_date,status,temperature,timestamp,distribution_point
+1,Pharma Inc,1625097600,1656633600,Created,22,1625184000,Warehouse A
+2,HealthCorp,1625184000,1656710400,Created,23,1625270400,Warehouse B
+3,Wellness Ltd,1625270400,1656787200,Created,24,1625356800,Warehouse C
+4,Pharma Inc,1625364000,1656870400,In Transit,25,1625450400,Warehouse A
+5,HealthCorp,1625450400,1656956800,Delivered,26,1625536800,Pharmacy X
+6,Wellness Ltd,1625536800,1657043200,Returned,27,1625623200,Warehouse C
+7,Pharma Inc,1625610400,1657130400,Created,28,1625696800,Warehouse A
+8,HealthCorp,1625700400,1657210400,In Transit,29,1625786800,Warehouse B
+9,Wellness Ltd,1625790400,1657290400,Delivered,30,1625876800,Warehouse C
+10,Pharma Inc,1625880400,1657370400,Returned,31,1625966800,Warehouse A
+11,HealthCorp,1625970400,1657450400,Created,32,1626056800,Warehouse B
+12,Wellness Ltd,1626060400,1657530400,In Transit,33,1626146800,Warehouse C

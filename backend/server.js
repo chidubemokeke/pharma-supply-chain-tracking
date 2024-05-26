@@ -2,11 +2,71 @@ const express = require("express"); // Import Express framework
 const SensorSimulator = require("./sensorSimulator"); // Import the sensor simulator
 const { ethers } = require("ethers"); // Import ethers.js for interacting with the blockchain
 require("dotenv").config(); // Load environment variables from .env file
+const fs = require("fs"); // Import file system module
+const csv = require("csv-parser"); // Import CSV parser module
 
 const app = express(); // Initialize Express app
 const port = process.env.PORT || 3000; // Set port from environment variables or default to 3000
 
 app.use(express.json()); // Middleware to parse JSON requests
+
+// In-memory storage for simplicity
+const batches = [];
+
+// Function to read CSV data
+function loadCsvData(filePath) {
+  return new Promise((resolve, reject) => {
+    const results = [];
+    fs.createReadStream(filePath)
+      .pipe(csv())
+      .on("data", (data) => results.push(data))
+      .on("end", () => {
+        resolve(results);
+      })
+      .on("error", (error) => {
+        reject(error);
+      });
+  });
+}
+
+// Function to read JSON data
+function loadJsonData(filePath) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(filePath, "utf8", (err, data) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(JSON.parse(data));
+      }
+    });
+  });
+}
+
+// Endpoint to load sample data
+app.post("/load-sample-data", async (req, res) => {
+  try {
+    const csvData = await loadCsvData("data/drug_batches.csv");
+    const jsonData = await loadJsonData("data/drug_batches.json");
+
+    // Combine data from CSV and JSON (assuming they are structured the same)
+    const combinedData = [...csvData, ...jsonData];
+
+    // Store in in-memory storage (or database in real-world scenarios)
+    combinedData.forEach((batch) => {
+      batches.push(batch);
+    });
+
+    res.status(200).send("Sample data loaded successfully");
+  } catch (error) {
+    console.error("Error loading sample data:", error);
+    res.status(500).send("Failed to load sample data");
+  }
+});
+
+// Endpoint to get all batches
+app.get("/batches", (req, res) => {
+  res.status(200).json(batches);
+});
 
 // Endpoint to receive data from IoT sensors
 app.post("/sensor-data", async (req, res) => {
