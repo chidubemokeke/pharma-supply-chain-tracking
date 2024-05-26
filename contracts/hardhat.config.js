@@ -1,8 +1,13 @@
 require("@nomiclabs/hardhat-waffle");
 
 module.exports = {
-  solidity: "0.8.0",
+  solidity: "0.8.7",
   networks: {
+    "optimism-sepolia": {
+      url: "https://sepolia.optimism.io",
+      chainId:11155420,
+      accounts: ["634e09c8e44458a98ff5aeee556fcfdbffe7918e8d8121991ca970ec68f34b93"]
+    },
     sepolia: {
       url:
         process.env.INFURA_PROJECT_URL ||

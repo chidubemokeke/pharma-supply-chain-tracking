@@ -1,12 +1,14 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.7;
 
-import "@chainlink/contracts/src/v0.8/ChainlinkClient.sol";
+import {Chainlink, ChainlinkClient} from "@chainlink/contracts/src/v0.8/ChainlinkClient.sol";
+import {ConfirmedOwner} from "@chainlink/contracts/src/v0.8/shared/access/ConfirmedOwner.sol";
+import {LinkTokenInterface} from "@chainlink/contracts/src/v0.8/shared/interfaces/LinkTokenInterface.sol";
 
-contract DrugBatch is ChainlinkClient {
-    using Chainlink for Chainlink.Request;
+contract DrugBatch is ChainlinkClient{
+using Chainlink for Chainlink.Request;
 
-    struct Batch {
+   struct Batch {
         uint256 id;
         string manufacturer;
         uint256 manufactureDate;
@@ -26,14 +28,13 @@ contract DrugBatch is ChainlinkClient {
     event BatchCreated(uint256 id, string manufacturer, uint256 manufactureDate, uint256 expiryDate);
     event BatchUpdated(uint256 id, string status);
     event TemperatureExceeded(uint256 id, uint256 temperature);
-
     constructor() {
-         _setPublicChainlinkToken();
         oracle = 0x7afe30CB3e53dBa6801Aa0EA647A0b1099abd5e6; // Replace with your oracle address
+        _setChainlinkToken(0x779877A7B0D9E8603169DdbD7836e478b4624789);
+        _setChainlinkOracle(oracle);
         jobId = "d5270d1c311941d0b08bead21fea7747"; // Replace with your job ID
         fee = 0.1 * 10 ** 18; // 0.1 LINK
     }
-
     function createBatch(string memory _manufacturer, uint256 _manufactureDate, uint256 _expiryDate) public {
         batches[nextBatchId] = Batch(nextBatchId, _manufacturer, _manufactureDate, _expiryDate, "Created");
         emit BatchCreated(nextBatchId, _manufacturer, _manufactureDate, _expiryDate);
@@ -79,4 +80,5 @@ contract DrugBatch is ChainlinkClient {
         }
         return string(bstr);
     }
+
 }
