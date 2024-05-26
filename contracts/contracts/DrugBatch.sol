@@ -29,7 +29,7 @@ contract DrugBatch is ChainlinkClient {
 
     constructor() {
          _setPublicChainlinkToken();
-        oracle = 0x7AFe30cb3E53dba6801aa0ea647A0b1099aBd5e6; // Replace with your oracle address
+        oracle = 0x7afe30CB3e53dBa6801Aa0EA647A0b1099abd5e6; // Replace with your oracle address
         jobId = "d5270d1c311941d0b08bead21fea7747"; // Replace with your job ID
         fee = 0.1 * 10 ** 18; // 0.1 LINK
     }
