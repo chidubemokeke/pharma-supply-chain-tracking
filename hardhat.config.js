@@ -1,15 +1,12 @@
 require("@nomiclabs/hardhat-waffle");
-require("dotenv").config(); // Load environment variables
+require("dotenv").config(); // Load environment variables from .env file
 
 module.exports = {
-  solidity: "0.8.0",
+  solidity: "0.8.0", // Specify the Solidity version
   networks: {
     sepolia: {
-      url: process.env.INFURA_PROJECT_URL,
-      accounts: [
-        process.env
-          .d17533e7ae67bfc4331bdba4de18dc48ca9568333d3d6566fcc793af7fec2682,
-      ],
+      url: process.env.INFURA_PROJECT_URL, // Infura project URL for Sepolia testnet
+      accounts: [process.env.PRIVATE_KEY], // Array of private keys for deploying contracts
     },
   },
 };
