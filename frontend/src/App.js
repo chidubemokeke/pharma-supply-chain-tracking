@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from "react"; // Import necessary React hooks
-import { gql, useQuery } from "@apollo/client"; // Import gql for defining GraphQL queries and useQuery for fetching data
+import React, { useEffect, useState } from "react";
+import { gql, useQuery } from "@apollo/client";
+import axios from 'axios';
+import { Link } from "react-router-dom";
 import client from "./apolloClient"; // Import Apollo Client instance
 
 // Define the GraphQL query to fetch batches data
@@ -28,12 +30,16 @@ const GET_TEMPERATURE_EVENTS = gql`
 `;
 
 function App() {
+  const [data, setData] = useState([]);
+  const [error, setError] = useState('');
+
   // Fetch batches data using the GET_BATCHES query
   const {
     loading: batchesLoading,
     error: batchesError,
     data: batchesData,
   } = useQuery(GET_BATCHES);
+
   // Fetch temperature events data using the GET_TEMPERATURE_EVENTS query
   const {
     loading: tempEventsLoading,
@@ -41,48 +47,116 @@ function App() {
     data: tempEventsData,
   } = useQuery(GET_TEMPERATURE_EVENTS);
 
-  // Show loading message if either query is loading
-  if (batchesLoading || tempEventsLoading) return <p>Loading...</p>;
-  // Show error message if there is an error in fetching batches data
-  if (batchesError) return <p>Error loading batches: {batchesError.message}</p>;
-  // Show error message if there is an error in fetching temperature events data
-  if (tempEventsError)
-    return <p>Error loading temperature events: {tempEventsError.message}</p>;
+  useEffect(() => {
+    axios.get('/')
+      .then(res => {
+        if (res.data.Status === "Success") {
+          setData(res.data.Result);
+        }
+        else {
+          setError(res.data.Error);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        setError('Error fetching data');
+      });
+  }, []);
 
   return (
-    <div>
-      <h1>Pharmaceutical Supply Chain Tracker</h1>
-      <h2>Batches</h2>
-      <ul>
-        {batchesData.batches.map((batch) => (
-          <li key={batch.id}>
-            <p>Batch ID: {batch.id}</p>
-            <p>Manufacturer: {batch.manufacturer}</p>
-            <p>
-              Manufacture Date:{" "}
-              {new Date(parseInt(batch.manufactureDate)).toLocaleDateString()}
-            </p>
-            <p>
-              Expiry Date:{" "}
-              {new Date(parseInt(batch.expiryDate)).toLocaleDateString()}
-            </p>
-            <p>Status: {batch.status}</p>
-          </li>
-        ))}
-      </ul>
-      <h2>Temperature Events</h2>
-      <ul>
-        {tempEventsData.temperatureEvents.map((event) => (
-          <li key={event.id}>
-            <p>Event ID: {event.id}</p>
-            <p>Batch ID: {event.batchId}</p>
-            <p>Temperature: {event.temperature}°C</p>
-            <p>
-              Timestamp: {new Date(parseInt(event.timestamp)).toLocaleString()}
-            </p>
-          </li>
-        ))}
-      </ul>
+    <div className="container-fluid">
+      <div className="row flex-nowrap">
+        <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+          <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+            <a href="/" className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none">
+              <span className="fs-5 fw-bolder d-none d-sm-inline">Admin Dashboard</span>
+            </a>
+            <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+              <li>
+                <Link to="/" data-bs-toggle="collapse" className="nav-link text-white px-0 align-middle">
+                  <i className="fs-4 bi-speedometer2"></i> <span className="ms-1 d-none d-sm-inline">Dashboard</span> </Link>
+              </li>
+              <li>
+                <Link to="/preview" className="nav-link px-0 align-middle text-white">
+                  <i className="fs-4 bi-list-task"></i> <span className="ms-1 d-none d-sm-inline">Manage Supply</span> </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className="col p-0 m-0">
+          <div className='p-2 d-flex justify-content-center shadow'>
+            <h4>Pharmaceutical Supply Chain Tracker</h4>
+          </div>
+          <div className='px-5 py-3'>
+            <div className='d-flex justify-content-center mt-2'>
+              <h3>Batches</h3>
+            </div>
+            <div className='text-danger'>
+              {error && error}
+            </div>
+            <div className='mt-3'>
+              <table className='table'>
+                <thead>
+                  <tr>
+                    <th>Batch ID</th>
+                    <th>Manufacturer</th>
+                    <th>Manufacture Date</th>
+                    <th>Expiry Date</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {batchesData && batchesData.batches.map((batch) => {
+                    return (
+                      <tr key={batch.id}>
+                        <td>{batch.id}</td>
+                        <td>{batch.manufacturer}</td>
+                        <td>{" "}
+                          {new Date(parseInt(batch.manufactureDate)).toLocaleDateString()}</td>
+                        <td>{" "}
+                          {new Date(parseInt(batch.expiryDate)).toLocaleDateString()}</td>
+                        <td>{batch.status}</td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className='px-5 py-3'>
+            <div className='d-flex justify-content-center mt-2'>
+              <h3>Temperature Events</h3>
+            </div>
+            <div className='text-danger'>
+              {error && error}
+            </div>
+            <div className='mt-3'>
+              <table className='table'>
+                <thead>
+                  <tr>
+                    <th>Event ID</th>
+                    <th>Batch ID</th>
+                    <th>Temperature (°C)</th>
+                    <th>Timestamp</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {tempEventsData && tempEventsData.temperatureEvents.map((event) => {
+                    return (
+                      <tr key={event.id}>
+                        <td>{event.id}</td>
+                        <td>{event.batchId}</td>
+                        <td>{event.temperature}</td>
+                        <td>{new Date(parseInt(event.timestamp)).toLocaleString()}</td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
