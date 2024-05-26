@@ -32,44 +32,46 @@ The Pharmaceutical Supply Chain Tracker is a decentralized application (dApp) de
 
 ## Project Structure
 
+```graphql
 pharma-supply-chain-tracker
 │
 ├── backend
-│ ├── server.js # Main entry point for the backend server
-│ ├── sensorSimulator.js # Simulates IoT sensor data
-│ └── .env # Environment variables for backend configuration
+│   ├── server.js                # Main entry point for the backend server
+│   ├── sensorSimulator.js       # Simulates IoT sensor data
+│   └── .env                     # Environment variables for backend configuration
 │
 ├── contracts
-│ └── DrugBatch.sol # Smart contract for managing drug batches
+│   └── DrugBatch.sol            # Smart contract for managing drug batches
 │
-├── sps # Substreams and Subgraph configuration
-│ ├── schema.graphql # GraphQL schema definition
-│ ├── substreams.yaml # Substreams configuration
-│ ├── src
-│ │ ├── main.rs # Main Substreams logic
-│ │ └── lib.rs # Library entry point for Substreams
-│ ├── abis
-│ │ └── DrugBatch.json # ABI file for the DrugBatch contract
-│ ├── mappings
-│ │ └── mapping.ts # Handlers for events emitted by the smart contract
-│ └── Cargo.toml # Rust project configuration file
+├── sps                          # Substreams and Subgraph configuration
+│   ├── schema.graphql           # GraphQL schema definition
+│   ├── substreams.yaml          # Substreams configuration
+│   ├── src
+│   │   ├── main.rs              # Main Substreams logic
+│   │   └── lib.rs               # Library entry point for Substreams
+│   ├── abis
+│   │   └── DrugBatch.json       # ABI file for the DrugBatch contract
+│   ├── mappings
+│   │   └── mapping.ts           # Handlers for events emitted by the smart contract
+│   └── Cargo.toml               # Rust project configuration file
 │
 ├── frontend
-│ ├── src
-│ │ ├── apolloClient.js # Apollo Client setup for GraphQL
-│ │ ├── App.js # Main React application component
-│ │ ├── App.css # Styling for the React application
-│ │ ├── index.js # Entry point for the React application
-│ │ └── queries.js # GraphQL queries for interacting with the subgraph
-│ ├── public # Public assets for the frontend application
-│ ├── package.json # NPM configuration file for the frontend project
-│ └── ...
+│   ├── src
+│   │   ├── apolloClient.js      # Apollo Client setup for GraphQL
+│   │   ├── App.js               # Main React application component
+│   │   ├── App.css              # Styling for the React application
+│   │   ├── index.js             # Entry point for the React application
+│   │   └── queries.js           # GraphQL queries for interacting with the subgraph
+│   ├── public                   # Public assets for the frontend application
+│   ├── package.json             # NPM configuration file for the frontend project
+│   └── ...
 │
 ├── scripts
-│ └── deploy.js # Script to deploy the smart contract
+│   └── deploy.js                # Script to deploy the smart contract
 │
-├── hardhat.config.js # Hardhat configuration file for deploying and managing smart contracts
-└── README.md # Project documentation
+├── hardhat.config.js            # Hardhat configuration file for deploying and managing smart contracts
+└── README.md                    # Project documentation
+```
 
 ## Getting Started
 
