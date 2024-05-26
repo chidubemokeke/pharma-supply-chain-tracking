@@ -2,8 +2,12 @@
 pragma solidity ^0.8.0;
 
 import "@chainlink/contracts/src/v0.8/ChainlinkClient.sol";
+import "@chainlink/contracts/src/v0.8/interfaces/ENSInterface.sol";
+import "@chainlink/contracts/src/v0.8/interfaces/LinkTokenInterface.sol";
+import "@chainlink/contracts/src/v0.8/interfaces/ChainlinkRequestInterface.sol";
+import "@chainlink/contracts/src/v0.8/interfaces/OracleInterface.sol";
 
-contract DrugBatch is ChainlinkClient {
+contract DrugBatch is ChainlinkClient 
     using Chainlink for Chainlink.Request;
 
     struct Batch {
@@ -28,7 +32,7 @@ contract DrugBatch is ChainlinkClient {
     event TemperatureExceeded(uint256 id, uint256 temperature);
 
     constructor() {
-        setPublicChainlinkToken();
+        setPublicChainlinkToken(0x326C977E6efc84E512bB9C30f76E30c160eD06FB); // Replace with Sepolia LINK token address
         oracle = 0x7AFe30cb3E53dba6801aa0ea647A0b1099aBd5e6; // Replace with your oracle address
         jobId = "d5270d1c311941d0b08bead21fea7747"; // Replace with your job ID
         fee = 0.1 * 10 ** 18; // 0.1 LINK
@@ -56,27 +60,4 @@ contract DrugBatch is ChainlinkClient {
 
     function fulfill(bytes32 _requestId, uint256 _temperature) public recordChainlinkFulfillment(_requestId) {
         uint256 batchId = chainlinkRequestIdToBatchId[_requestId];
-        if (_temperature > temperatureThreshold) {
-            emit TemperatureExceeded(batchId, _temperature);
-        }
-    }
-
-    function uint2str(uint256 _i) internal pure returns (string memory _uintAsString) {
-        if (_i == 0) {
-            return "0";
-        }
-        uint256 j = _i;
-        uint256 len;
-        while (j != 0) {
-            len++;
-            j /= 10;
-        }
-        bytes memory bstr = new bytes(len);
-        uint256 k = len;
-        while (_i != 0) {
-            bstr[--k] = bytes1(uint8(48 + _i % 10));
-            _i /= 10;
-        }
-        return string(bstr);
-    }
-}
+        if (_temper)
