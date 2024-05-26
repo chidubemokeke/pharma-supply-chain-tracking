@@ -86,7 +86,7 @@ app.post("/sensor-data", async (req, res) => {
 // Function to interact with smart contract and record temperature
 async function recordTemperature(batchId, temperature) {
   const provider = new ethers.providers.InfuraProvider(
-    "rinkeby",
+    "sepolia",
     process.env.INFURA_PROJECT_URL
   ); // Connect to Infura
   const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider); // Create wallet instance from private key
