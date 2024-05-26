@@ -1,28 +1,12 @@
-import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
-import { setContext } from "@apollo/client/link/context";
-import { onError } from "@apollo/client/link/error";
+import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client"; // Import necessary Apollo Client modules
 
-const httpLink = createHttpLink({
-  uri:
-    "https://api.thegraph.com/subgraphs/name/yourusername/pharma-supply-chain-subgraph",
-});
-
-const errorLink = onError(({ graphQLErrors, networkError }) => {
-  if (graphQLErrors) {
-    graphQLErrors.forEach(({ message, locations, path }) => {
-      console.log(
-        `GraphQL error: ${message}, Location: ${locations}, Path: ${path}`
-      );
-    });
-  }
-  if (networkError) {
-    console.log(`Network error: ${networkError}`);
-  }
-});
-
+// Create a new ApolloClient instance
 const client = new ApolloClient({
-  link: errorLink.concat(httpLink),
-  cache: new InMemoryCache(),
+  link: new HttpLink({
+    uri:
+      "https://api.thegraph.com/subgraphs/name/yourusername/pharma-supply-chain-tracker", // URL to your subgraph
+  }),
+  cache: new InMemoryCache(), // Use in-memory cache for caching GraphQL results
 });
 
-export default client;
+export default client; // Export the Apollo Client instance

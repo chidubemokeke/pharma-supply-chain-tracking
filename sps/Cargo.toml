@@ -1,0 +1,9 @@
+[package]
+name = "pharma_supply_chain_substreams" // Package name
+version = "0.1.0" // Package version
+edition = "2018" // Rust edition
+
+[dependencies]
+substreams = "0.1.0" // Substreams dependency
+substreams-ethereum = "0.1.0" // Substreams Ethereum dependency
+prost = "0.8" // Protocol buffers library for Rust

@@ -1,11 +1,12 @@
 require("@nomiclabs/hardhat-waffle");
+require("dotenv").config(); // Import dotenv to load environment variables
 
 module.exports = {
   solidity: "0.8.0",
   networks: {
     rinkeby: {
-      url: "https://rinkeby.infura.io/v3/YOUR_INFURA_PROJECT_ID",
-      accounts: [`0x${YOUR_PRIVATE_KEY}`],
+      url: process.env.INFURA_PROJECT_URL,
+      accounts: [process.env.PRIVATE_KEY],
     },
   },
 };

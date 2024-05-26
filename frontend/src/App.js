@@ -1,122 +1,88 @@
-import React, { useState } from "react";
-import { useQuery } from "@apollo/client";
-import {
-  GET_BATCHES,
-  GET_BATCH_DETAILS,
-  GET_TEMPERATURE_EVENTS,
-} from "./queries";
-import "./App.css";
+import React, { useEffect, useState } from "react"; // Import necessary React hooks
+import { gql, useQuery } from "@apollo/client"; // Import gql for defining GraphQL queries and useQuery for fetching data
+import client from "./apolloClient"; // Import Apollo Client instance
+
+// Define the GraphQL query to fetch batches data
+const GET_BATCHES = gql`
+  {
+    batches {
+      id
+      manufacturer
+      manufactureDate
+      expiryDate
+      status
+    }
+  }
+`;
+
+// Define the GraphQL query to fetch temperature events data
+const GET_TEMPERATURE_EVENTS = gql`
+  {
+    temperatureEvents {
+      id
+      batchId
+      temperature
+      timestamp
+    }
+  }
+`;
 
 function App() {
+  // Fetch batches data using the GET_BATCHES query
   const {
-    loading: loadingBatches,
-    error: errorBatches,
-    data: dataBatches,
+    loading: batchesLoading,
+    error: batchesError,
+    data: batchesData,
   } = useQuery(GET_BATCHES);
+  // Fetch temperature events data using the GET_TEMPERATURE_EVENTS query
   const {
-    loading: loadingTemperatureEvents,
-    error: errorTemperatureEvents,
-    data: dataTemperatureEvents,
+    loading: tempEventsLoading,
+    error: tempEventsError,
+    data: tempEventsData,
   } = useQuery(GET_TEMPERATURE_EVENTS);
-  const [selectedBatchId, setSelectedBatchId] = useState(null);
 
-  const {
-    loading: loadingBatchDetails,
-    error: errorBatchDetails,
-    data: dataBatchDetails,
-  } = useQuery(GET_BATCH_DETAILS, {
-    variables: { id: selectedBatchId },
-    skip: !selectedBatchId,
-  });
-
-  if (
-    loadingBatches ||
-    loadingTemperatureEvents ||
-    (selectedBatchId && loadingBatchDetails)
-  )
-    return <p>Loading...</p>;
-  if (
-    errorBatches ||
-    errorTemperatureEvents ||
-    (selectedBatchId && errorBatchDetails)
-  )
-    return <p>Error :(</p>;
+  // Show loading message if either query is loading
+  if (batchesLoading || tempEventsLoading) return <p>Loading...</p>;
+  // Show error message if there is an error in fetching batches data
+  if (batchesError) return <p>Error loading batches: {batchesError.message}</p>;
+  // Show error message if there is an error in fetching temperature events data
+  if (tempEventsError)
+    return <p>Error loading temperature events: {tempEventsError.message}</p>;
 
   return (
-    <div className="App">
-      <h1>Pharmaceutical Batches</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Manufacturer</th>
-            <th>Manufacture Date</th>
-            <th>Expiry Date</th>
-            <th>Status</th>
-            <th>Details</th>
-          </tr>
-        </thead>
-        <tbody>
-          {dataBatches.batches.map((batch) => (
-            <tr key={batch.id}>
-              <td>{batch.id}</td>
-              <td>{batch.manufacturer}</td>
-              <td>
-                {new Date(parseInt(batch.manufactureDate)).toLocaleDateString()}
-              </td>
-              <td>
-                {new Date(parseInt(batch.expiryDate)).toLocaleDateString()}
-              </td>
-              <td>{batch.status}</td>
-              <td>
-                <button onClick={() => setSelectedBatchId(batch.id)}>
-                  View Details
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      {selectedBatchId && dataBatchDetails && (
-        <div>
-          <h2>Batch Details</h2>
-          <p>ID: {dataBatchDetails.batch.id}</p>
-          <p>Manufacturer: {dataBatchDetails.batch.manufacturer}</p>
-          <p>
-            Manufacture Date:{" "}
-            {new Date(
-              parseInt(dataBatchDetails.batch.manufactureDate)
-            ).toLocaleDateString()}
-          </p>
-          <p>
-            Expiry Date:{" "}
-            {new Date(
-              parseInt(dataBatchDetails.batch.expiryDate)
-            ).toLocaleDateString()}
-          </p>
-          <p>Status: {dataBatchDetails.batch.status}</p>
-          <h3>Temperature Events</h3>
-          <ul>
-            {dataBatchDetails.batch.temperatureEvents.map((event) => (
-              <li key={event.id}>
-                Temperature: {event.temperature} - Date:{" "}
-                {new Date(parseInt(event.timestamp)).toLocaleDateString()}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-      <div>
-        <h2>All Temperature Events</h2>
-        <ul>
-          {dataTemperatureEvents.temperatureEvents.map((event) => (
-            <li key={event.id}>
-              Batch ID: {event.batchId} - Temperature: {event.temperature} -
-              Date: {new Date(parseInt(event.timestamp)).toLocaleDateString()}
-            </li>
-          ))}
-        </ul>
-      </div>
+    <div>
+      <h1>Pharmaceutical Supply Chain Tracker</h1>
+      <h2>Batches</h2>
+      <ul>
+        {batchesData.batches.map((batch) => (
+          <li key={batch.id}>
+            <p>Batch ID: {batch.id}</p>
+            <p>Manufacturer: {batch.manufacturer}</p>
+            <p>
+              Manufacture Date:{" "}
+              {new Date(parseInt(batch.manufactureDate)).toLocaleDateString()}
+            </p>
+            <p>
+              Expiry Date:{" "}
+              {new Date(parseInt(batch.expiryDate)).toLocaleDateString()}
+            </p>
+            <p>Status: {batch.status}</p>
+          </li>
+        ))}
+      </ul>
+      <h2>Temperature Events</h2>
+      <ul>
+        {tempEventsData.temperatureEvents.map((event) => (
+          <li key={event.id}>
+            <p>Event ID: {event.id}</p>
+            <p>Batch ID: {event.batchId}</p>
+            <p>Temperature: {event.temperature}°C</p>
+            <p>
+              Timestamp: {new Date(parseInt(event.timestamp)).toLocaleString()}
+            </p>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

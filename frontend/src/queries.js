@@ -1,8 +1,8 @@
-import { gql } from "@apollo/client";
+import { gql } from "@apollo/client"; // Import gql for defining GraphQL queries
 
-// Query to get all batches
+// Define the GraphQL query to fetch batches data
 export const GET_BATCHES = gql`
-  query GetBatches {
+  {
     batches {
       id
       manufacturer
@@ -13,27 +13,9 @@ export const GET_BATCHES = gql`
   }
 `;
 
-// Query to get batch details by ID
-export const GET_BATCH_DETAILS = gql`
-  query GetBatchDetails($id: ID!) {
-    batch(id: $id) {
-      id
-      manufacturer
-      manufactureDate
-      expiryDate
-      status
-      temperatureEvents {
-        id
-        temperature
-        timestamp
-      }
-    }
-  }
-`;
-
-// Query to get all temperature events
+// Define the GraphQL query to fetch temperature events data
 export const GET_TEMPERATURE_EVENTS = gql`
-  query GetTemperatureEvents {
+  {
     temperatureEvents {
       id
       batchId

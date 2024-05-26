@@ -31,9 +31,7 @@ async function recordTemperature(batchId, temperature) {
   ); // Connect to Infura
   const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider); // Create wallet instance from private key
   const contractAddress = process.env.CONTRACT_ADDRESS; // Smart contract address
-  const contractABI = [
-    /* Your Contract ABI here */
-  ]; // Smart contract ABI
+  const contractABI = require("./abis/DrugBatch.json"); // Import the ABI of the DrugBatch contract
   const contract = new ethers.Contract(contractAddress, contractABI, wallet); // Create contract instance
 
   return await contract.recordTemperature(batchId, temperature); // Call smart contract method

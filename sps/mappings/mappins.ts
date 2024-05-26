@@ -7,7 +7,7 @@ import { Batch, TemperatureEvent } from "../generated/schema"; // Import entity 
 
 // Handler function for the BatchCreated event
 export function handleBatchCreated(event: BatchCreated): void {
-  let batch = new Batch(event.params.id.toString()); // Create a new Batch entity
+  let batch = new Batch(event.params.id.toString()); // Create a new Batch entity with the ID
   batch.manufacturer = event.params.manufacturer; // Set the manufacturer field
   batch.manufactureDate = event.params.manufactureDate; // Set the manufacture date field
   batch.expiryDate = event.params.expiryDate; // Set the expiry date field
@@ -17,7 +17,7 @@ export function handleBatchCreated(event: BatchCreated): void {
 
 // Handler function for the BatchUpdated event
 export function handleBatchUpdated(event: BatchUpdated): void {
-  let batch = Batch.load(event.params.id.toString()); // Load the existing Batch entity
+  let batch = Batch.load(event.params.id.toString()); // Load the existing Batch entity using the ID
   if (batch == null) {
     return; // If the batch doesn't exist, return early
   }
