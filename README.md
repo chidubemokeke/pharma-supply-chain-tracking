@@ -18,8 +18,6 @@ The Pharmaceutical Supply Chain Tracker is a decentralized application (dApp) de
    - [Running the Frontend Application](#running-the-frontend-application)
 5. [Usage](#usage)
 6. [GraphQL Queries](#graphql-queries)
-7. [Contributing](#contributing)
-8. [License](#license)
 
 ## Technologies Used
 
@@ -94,6 +92,7 @@ pharma-supply-chain-tracker
    ```
 
 2. Install dependencies for backend and frontend:
+
    ```sh
    cd backend
    npm install
