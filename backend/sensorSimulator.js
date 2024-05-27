@@ -4,9 +4,8 @@ const axios = require("axios"); // We use axios to send HTTP requests
 async function simulateSensorData() {
   // Define an array of sample sensor data
   const sensorData = [
-    { batchId: 1, temperature: 28 },
-    { batchId: 2, temperature: 22 },
-    { batchId: 3, temperature: 35 },
+    { batchId: 1, temperature: 22 },
+    
     // Add more sample data as needed
   ];
 

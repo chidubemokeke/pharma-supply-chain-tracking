@@ -1,5 +1,5 @@
 const express = require("express"); // We use Express to handle HTTP requests easily
-const { ethers } = require("ethers"); // ethers.js allows us to interact with the Ethereum blockchain
+const { ethers} = require("ethers"); // ethers.js allows us to interact with the Ethereum blockchain
 require("dotenv").config(); // Load environment variables from our .env file for secure and flexible configuration
 const DrugBatch = require("../contracts/artifacts/contracts/DrugBatch.sol/DrugBatch.json"); // Import the ABI of our compiled smart contract
 
@@ -9,6 +9,14 @@ const port = process.env.PORT || 3000; // Define the port for the server, defaul
 app.use(express.json()); // Use middleware to parse JSON bodies in incoming requests
 
 // Define a route to handle POST requests at /sensor-data
+
+const provider =new ethers.providers.InfuraProvider(
+  "sepolia",
+  process.env.INFURA_API_KEY
+); // Using Sepolia Infura URL
+const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider); // Create wallet instance from private key
+const contractAddress = process.env.CONTRACT_ADDRESS;
+const contract = new ethers.Contract(contractAddress, DrugBatch.abi, wallet);
 app.post("/sensor-data", async (req, res) => {
   try {
     const { batchId, temperature } = req.body; // Extract batchId and temperature from the request body
@@ -22,11 +30,7 @@ app.post("/sensor-data", async (req, res) => {
     }
 
     // Connect to the Ethereum network via Infura
-    const provider = new ethers.providers.InfuraProvider(
-      "sepolia",
-      "45659e58bfd842309ac5e26ecd083106"
-    ); // Using Sepolia Infura URL
-    const wallet = new ethers.Wallet(
+    /*const wallet = new ethers.Wallet(
       "d17533e7ae67bfc4331bdba4de18dc48ca9568333d3d6566fcc793af7fec2682",
       provider
     ); // Using provided private key
@@ -35,7 +39,7 @@ app.post("/sensor-data", async (req, res) => {
       DrugBatch.abi,
       wallet
     ); // Create a contract instance with our ABI and contract address
-
+*/
     // Call the smart contract's function to record temperature data
     const tx = await contract.recordTemperature(batchId, temperature); // This function sends a transaction to record the temperature
     await tx.wait(); // Wait for the transaction to be mined
