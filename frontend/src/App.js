@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { gql, useQuery } from "@apollo/client";
-import axios from 'axios';
 import { Link } from "react-router-dom";
 import client from "./apolloClient"; // Import Apollo Client instance
 
@@ -30,38 +29,22 @@ const GET_TEMPERATURE_EVENTS = gql`
 `;
 
 function App() {
-  const [data, setData] = useState([]);
+  // State to hold batches and temperature events data
+  const [batchesData, setBatchesData] = useState([]);
+  const [tempEventsData, setTempEventsData] = useState([]);
   const [error, setError] = useState('');
 
   // Fetch batches data using the GET_BATCHES query
-  const {
-    loading: batchesLoading,
-    error: batchesError,
-    data: batchesData,
-  } = useQuery(GET_BATCHES);
+  const { loading: batchesLoading, error: batchesError } = useQuery(GET_BATCHES, {
+    onCompleted: (data) => setBatchesData(data.batches),
+    onError: (error) => setError(error.message)
+  });
 
   // Fetch temperature events data using the GET_TEMPERATURE_EVENTS query
-  const {
-    loading: tempEventsLoading,
-    error: tempEventsError,
-    data: tempEventsData,
-  } = useQuery(GET_TEMPERATURE_EVENTS);
-
-  useEffect(() => {
-    axios.get('/')
-      .then(res => {
-        if (res.data.Status === "Success") {
-          setData(res.data.Result);
-        }
-        else {
-          setError(res.data.Error);
-        }
-      })
-      .catch(err => {
-        console.log(err);
-        setError('Error fetching data');
-      });
-  }, []);
+  const { loading: tempEventsLoading, error: tempEventsError } = useQuery(GET_TEMPERATURE_EVENTS, {
+    onCompleted: (data) => setTempEventsData(data.temperatureEvents),
+    onError: (error) => setError(error.message)
+  });
 
   return (
     <div className="container-fluid">
@@ -106,19 +89,15 @@ function App() {
                   </tr>
                 </thead>
                 <tbody>
-                  {batchesData && batchesData.batches.map((batch) => {
-                    return (
-                      <tr key={batch.id}>
-                        <td>{batch.id}</td>
-                        <td>{batch.manufacturer}</td>
-                        <td>{" "}
-                          {new Date(parseInt(batch.manufactureDate)).toLocaleDateString()}</td>
-                        <td>{" "}
-                          {new Date(parseInt(batch.expiryDate)).toLocaleDateString()}</td>
-                        <td>{batch.status}</td>
-                      </tr>
-                    )
-                  })}
+                  {batchesData && batchesData.map((batch) => (
+                    <tr key={batch.id}>
+                      <td>{batch.id}</td>
+                      <td>{batch.manufacturer}</td>
+                      <td>{new Date(parseInt(batch.manufactureDate)).toLocaleDateString()}</td>
+                      <td>{new Date(parseInt(batch.expiryDate)).toLocaleDateString()}</td>
+                      <td>{batch.status}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -141,16 +120,14 @@ function App() {
                   </tr>
                 </thead>
                 <tbody>
-                  {tempEventsData && tempEventsData.temperatureEvents.map((event) => {
-                    return (
-                      <tr key={event.id}>
-                        <td>{event.id}</td>
-                        <td>{event.batchId}</td>
-                        <td>{event.temperature}</td>
-                        <td>{new Date(parseInt(event.timestamp)).toLocaleString()}</td>
-                      </tr>
-                    )
-                  })}
+                  {tempEventsData && tempEventsData.map((event) => (
+                    <tr key={event.id}>
+                      <td>{event.id}</td>
+                      <td>{event.batchId}</td>
+                      <td>{event.temperature}</td>
+                      <td>{new Date(parseInt(event.timestamp)).toLocaleString()}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
