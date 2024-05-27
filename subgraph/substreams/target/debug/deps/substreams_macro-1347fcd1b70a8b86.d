@@ -1,0 +1,9 @@
+/Users/estherliadi/Desktop/pharma-supply-chain-tracking/subgraph/substreams/target/debug/deps/libsubstreams_macro-1347fcd1b70a8b86.dylib: /Users/estherliadi/.cargo/registry/src/index.crates.io-6f17d22bba15001f/substreams-macro-0.0.21/src/lib.rs /Users/estherliadi/.cargo/registry/src/index.crates.io-6f17d22bba15001f/substreams-macro-0.0.21/src/config.rs /Users/estherliadi/.cargo/registry/src/index.crates.io-6f17d22bba15001f/substreams-macro-0.0.21/src/errors.rs /Users/estherliadi/.cargo/registry/src/index.crates.io-6f17d22bba15001f/substreams-macro-0.0.21/src/handler.rs /Users/estherliadi/.cargo/registry/src/index.crates.io-6f17d22bba15001f/substreams-macro-0.0.21/src/store.rs
+
+/Users/estherliadi/Desktop/pharma-supply-chain-tracking/subgraph/substreams/target/debug/deps/substreams_macro-1347fcd1b70a8b86.d: /Users/estherliadi/.cargo/registry/src/index.crates.io-6f17d22bba15001f/substreams-macro-0.0.21/src/lib.rs /Users/estherliadi/.cargo/registry/src/index.crates.io-6f17d22bba15001f/substreams-macro-0.0.21/src/config.rs /Users/estherliadi/.cargo/registry/src/index.crates.io-6f17d22bba15001f/substreams-macro-0.0.21/src/errors.rs /Users/estherliadi/.cargo/registry/src/index.crates.io-6f17d22bba15001f/substreams-macro-0.0.21/src/handler.rs /Users/estherliadi/.cargo/registry/src/index.crates.io-6f17d22bba15001f/substreams-macro-0.0.21/src/store.rs
+
+/Users/estherliadi/.cargo/registry/src/index.crates.io-6f17d22bba15001f/substreams-macro-0.0.21/src/lib.rs:
+/Users/estherliadi/.cargo/registry/src/index.crates.io-6f17d22bba15001f/substreams-macro-0.0.21/src/config.rs:
+/Users/estherliadi/.cargo/registry/src/index.crates.io-6f17d22bba15001f/substreams-macro-0.0.21/src/errors.rs:
+/Users/estherliadi/.cargo/registry/src/index.crates.io-6f17d22bba15001f/substreams-macro-0.0.21/src/handler.rs:
+/Users/estherliadi/.cargo/registry/src/index.crates.io-6f17d22bba15001f/substreams-macro-0.0.21/src/store.rs:
