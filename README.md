@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Pharmaceutical Supply Chain Tracker is a decentralized application (dApp) designed to track pharmaceutical batches and monitor temperature conditions during their supply chain journey. This project leverages blockchain technology, Substreams, The Graph, and Chainlink to ensure data transparency, integrity, and security.
+MediChain is a decentralized application (dApp) designed to track pharmaceutical batches and monitor temperature conditions during their supply chain journey. This project leverages blockchain technology, The Graph, and Chainlink to ensure data transparency, integrity, and security.
 
 ## Table of Contents
 
@@ -24,56 +24,10 @@ The Pharmaceutical Supply Chain Tracker is a decentralized application (dApp) de
 - **Solidity**: Smart contract language for Ethereum.
 - **Hardhat**: Development environment for Ethereum.
 - **Chainlink**: Decentralized oracle network.
-- **Substreams**: Real-time data processing.
 - **The Graph**: Decentralized querying protocol.
 - **Express.js**: Backend server framework.
 - **React**: Frontend library for building user interfaces.
 - **Apollo Client**: GraphQL client for React.
-
-## Project Structure
-
-```graphql
-pharma-supply-chain-tracker
-│
-├── backend
-│   ├── server.js                # Main entry point for the backend server
-│   ├── sensorSimulator.js       # Simulates IoT sensor data
-│   └── data
-│       ├── drug_batches.csv     # Sample dataset CSV
-│       └── drug_batches.json    # Sample dataset JSON
-│
-├── contracts
-│   └── DrugBatch.sol            # Smart contract for managing drug batches
-│
-├── sps                          # Substreams and Subgraph configuration
-│   ├── schema.graphql           # GraphQL schema definition
-│   ├── substreams.yaml          # Substreams configuration
-│   ├── src
-│   │   ├── main.rs              # Main Substreams logic
-│   │   └── lib.rs               # Library entry point for Substreams
-│   ├── abis
-│   │   └── DrugBatch.json       # ABI file for the DrugBatch contract
-│   ├── mappings
-│   │   └── mapping.ts           # Handlers for events emitted by the smart contract
-│   └── Cargo.toml               # Rust project configuration file
-│
-├── frontend
-│   ├── src
-│   │   ├── apolloClient.js      # Apollo Client setup for GraphQL
-│   │   ├── App.js               # Main React application component
-│   │   ├── App.css              # Styling for the React application
-│   │   ├── index.js             # Entry point for the React application
-│   │   └── queries.js           # GraphQL queries for interacting with the subgraph
-│   ├── public                   # Public assets for the frontend application
-│   ├── package.json             # NPM configuration file for the frontend project
-│   └── ...
-│
-├── scripts
-│   └── deploy.js                # Script to deploy the smart contract
-│
-├── hardhat.config.js            # Hardhat configuration file for deploying and managing smart contracts
-└── README.md                    # Project documentation
-```
 
 ## Getting Started
 
@@ -82,7 +36,6 @@ pharma-supply-chain-tracker
 - Node.js
 - npm or yarn
 - Hardhat
-- Rust and Cargo
 - A Web3 wallet (e.g., MetaMask)
 - Infura project for Ethereum access
 
@@ -97,12 +50,14 @@ pharma-supply-chain-tracker
 
 2. Install dependencies for backend and frontend:
 
-   ```sh
+```sh
    cd backend
-   npm install
-   cd ../frontend
-   npm install
-   ```
+npm install
+cd ../frontend
+npm install
+cd ../subgraph
+npm install
+```
 
 ### Configuration
 
@@ -115,7 +70,12 @@ pharma-supply-chain-tracker
    PORT=3000
    ```
 
-2. Update the `hardhat.config.js` file with your Infura project URL and private key.
+2. Create a .env file in the frontend folder with the following content:
+
+```sh
+REACT_APP_SUBGRAPH_URL=https://api.thegraph.com/subgraphs/name/yourusername/medi-chain
+
+```
 
 ### Deploying the Smart Contract
 
@@ -125,10 +85,11 @@ pharma-supply-chain-tracker
    npx hardhat compile
    ```
 
-2. Deploy the smart contract to the Rinkeby testnet:
+2. Deploy the smart contract to the Sepolia testnet:
 
    ```sh
-   npx hardhat run scripts/deploy.js --network optimism
+   npx hardhat run scripts/deploy.js --network sepolia
+
    ```
 
 ### Running the Backend Server
