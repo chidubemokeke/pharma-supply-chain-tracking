@@ -34,6 +34,16 @@ async function handleSensorData(data) {
   }
 }
 
+function getRandomInt(min, max) {
+    if (min > max) {
+      throw new Error("The minimum value must be less than or equal to the maximum value.");
+    }
+    
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
 // Placeholder function to simulate receiving sensor data
 function getSensorDataStream() {
   // Simulate a real-time data stream using EventEmitter
@@ -43,13 +53,13 @@ function getSensorDataStream() {
   // Generate random sensor data every second
   setInterval(() => {
     const data = {
-      batchId: Math.floor(Math.random() * 1000), // Random batch ID
-      temperature: Math.random() * 100, // Random temperature between 0 and 100
+      batchId: getRandomInt(0, 1), // Random batch ID
+      temperature: getRandomInt(1, 100), // Random temperature between 0 and 100
       humidity: Math.random() * 100, // Random humidity between 0 and 100
       timestamp: Date.now(), // Current timestamp
     };
     eventEmitter.emit("data", data); // Emit the sensor data
-  }, 1000);
+  }, 10000);
 
   return eventEmitter;
 }
