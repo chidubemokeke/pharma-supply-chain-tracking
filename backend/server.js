@@ -87,7 +87,7 @@ app.post("/sensor-data", async (req, res) => {
 async function recordTemperature(batchId, temperature) {
   const provider = new InfuraProvider(
     "sepolia",
-    process.env.INFURA_PROJECT_URL
+    process.env.INFURA_API_KEY
   ); // Connect to Infura
   const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider); // Create wallet instance from private key
   const contractAddress = process.env.CONTRACT_ADDRESS; // Smart contract address
@@ -96,7 +96,14 @@ async function recordTemperature(batchId, temperature) {
 
   return await contract.recordTemperature(batchId, parseInt(temperature.toFixed(1))); // Call smart contract method
 }
-
+async function createBatch(manufacturer,manufacture_date,expiry_date){
+  const provider = new InfuraProvider("sepolia", process.env.INFURA_API_KEY); // Connect to Infura
+  const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider); // Create wallet instance from private key
+  const contractAddress = process.env.CONTRACT_ADDRESS; // Smart contract address
+  const contractABI = require("../sps/abis/DrugBatch.json"); // Import the ABI of the DrugBatch contract
+  const contract = new ethers.Contract(contractAddress, contractABI, wallet); // Create contract instance
+  return await contract.createBatch(manufacturer,manufacture_date,expiry_date);
+}
 // Start the Express server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
@@ -104,6 +111,7 @@ app.listen(port, () => {
   const sensorSimulator = new SensorSimulator(); // Initialize sensor simulator
   sensorSimulator.on("data", async (data) => {
     // Listen for 'data' events from simulator
+    //try creating a batch first
     console.log("Simulated sensor data:", data);
     try {
       await recordTemperature(data.batchId, data.temperature); // Record temperature on blockchain
