@@ -30,7 +30,7 @@ using Chainlink for Chainlink.Request;
     event TemperatureExceeded(uint256 id, uint256 temperature);
     constructor() {
         oracle = 0x7afe30CB3e53dBa6801Aa0EA647A0b1099abd5e6; // Replace with your oracle address
-        _setChainlinkToken(0x779877A7B0D9E8603169DdbD7836e478b4624789);
+        _setChainlinkToken(0x326C977E6efc84E512bB9C30f76E30c160eD06FB);
         _setChainlinkOracle(oracle);
         jobId = "d5270d1c311941d0b08bead21fea7747"; // Replace with your job ID
         fee = 0.1 * 10 ** 18; // 0.1 LINK
@@ -54,6 +54,23 @@ using Chainlink for Chainlink.Request;
         chainlinkRequestIdToBatchId[requestId] = _batchId;
         return requestId;
     }
+function recordTemperature(uint256 _batchId, uint256 _temperature) public {
+    require(_batchId < nextBatchId, "Batch does not exist");
+
+    // Check if the temperature exceeds the threshold
+    if (_temperature > temperatureThreshold) {
+        // Trigger the TemperatureExceeded event
+        emit TemperatureExceeded(_batchId, _temperature);
+        
+        // Optionally, update the batch status if temperature is exceeded
+        batches[_batchId].status = "Temperature Exceeded";
+        emit BatchUpdated(_batchId, "Temperature Exceeded");
+    } else {
+        // Optionally, update the batch status if temperature is within the threshold
+        batches[_batchId].status = "Temperature Normal";
+        emit BatchUpdated(_batchId, "Temperature Normal");
+    }
+}
 
     function fulfill(bytes32 _requestId, uint256 _temperature) public recordChainlinkFulfillment(_requestId) {
         uint256 batchId = chainlinkRequestIdToBatchId[_requestId];

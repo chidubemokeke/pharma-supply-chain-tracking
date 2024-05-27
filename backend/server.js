@@ -1,6 +1,6 @@
 const express = require("express"); // Import Express framework
 const SensorSimulator = require("./sensorSimulator"); // Import the sensor simulator
-const { ethers } = require("ethers"); // Import ethers.js for interacting with the blockchain
+const { ethers,InfuraProvider } = require("ethers"); // Import ethers.js for interacting with the blockchain
 require("dotenv").config(); // Load environment variables from .env file
 const fs = require("fs"); // Import file system module
 const csv = require("csv-parser"); // Import CSV parser module
@@ -85,16 +85,16 @@ app.post("/sensor-data", async (req, res) => {
 
 // Function to interact with smart contract and record temperature
 async function recordTemperature(batchId, temperature) {
-  const provider = new ethers.providers.InfuraProvider(
+  const provider = new InfuraProvider(
     "sepolia",
     process.env.INFURA_PROJECT_URL
   ); // Connect to Infura
   const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider); // Create wallet instance from private key
   const contractAddress = process.env.CONTRACT_ADDRESS; // Smart contract address
-  const contractABI = require("./abis/DrugBatch.json"); // Import the ABI of the DrugBatch contract
+  const contractABI = require("../sps/abis/DrugBatch.json"); // Import the ABI of the DrugBatch contract
   const contract = new ethers.Contract(contractAddress, contractABI, wallet); // Create contract instance
 
-  return await contract.recordTemperature(batchId, temperature); // Call smart contract method
+  return await contract.recordTemperature(batchId, parseInt(temperature.toFixed(1))); // Call smart contract method
 }
 
 // Start the Express server

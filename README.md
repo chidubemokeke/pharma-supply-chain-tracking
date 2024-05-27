@@ -128,7 +128,7 @@ pharma-supply-chain-tracker
 2. Deploy the smart contract to the Rinkeby testnet:
 
    ```sh
-   npx hardhat run scripts/deploy.js --network rinkeby
+   npx hardhat run scripts/deploy.js --network optimism
    ```
 
 ### Running the Backend Server
