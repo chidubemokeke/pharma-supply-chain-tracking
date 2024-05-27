@@ -19,7 +19,7 @@ dataSources:
         - TemperatureExceeded
       abis:
         - name: Contract
-          file: Contract/abis/Contract.json
+          file: Contract\abis\Contract.json
       eventHandlers:
         - event: BatchCreated(uint256,string,uint256,uint256)
           handler: handleBatchCreated
@@ -27,4 +27,4 @@ dataSources:
           handler: handleBatchUpdated
         - event: TemperatureExceeded(uint256,uint256)
           handler: handleTemperatureExceeded
-      file: Contract/Contract.wasm
+      file: Contract\Contract.wasm

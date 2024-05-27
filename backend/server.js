@@ -2,7 +2,6 @@ const express = require("express"); // We use Express to handle HTTP requests ea
 const { ethers} = require("ethers"); // ethers.js allows us to interact with the Ethereum blockchain
 require("dotenv").config(); // Load environment variables from our .env file for secure and flexible configuration
 const DrugBatch = require("../contracts/artifacts/contracts/DrugBatch.sol/DrugBatch.json"); // Import the ABI of our compiled smart contract
-const listenToSensorDataStream = require("./index");
 
 const app = express(); // Initialize an Express application
 const port = process.env.PORT || 3000; // Define the port for the server, defaulting to 3000 if not specified
@@ -54,6 +53,5 @@ app.post("/sensor-data", async (req, res) => {
 
 // Start the server and listen on the specified port
 app.listen(port, () => {
-  listenToSensorDataStream();
   console.log(`Server running on port ${port}`);
 });
