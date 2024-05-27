@@ -5,6 +5,7 @@
   },
   "dependencies": {
     "@chainlink/contracts": "^1.1.1",
+    "@graphprotocol/graph-cli": "^0.72.2",
     "@nomiclabs/hardhat-waffle": "^2.0.6",
     "chai": "^5.1.1",
     "dotenv": "^16.4.5",

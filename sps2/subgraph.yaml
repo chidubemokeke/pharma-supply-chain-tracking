@@ -1,0 +1,30 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Contract
+    network: sepolia
+    source:
+      address: "0x48fe1507bF707622C1905e97eFed345ad89ccC84"
+      abi: Contract
+      startBlock: 5986524
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - BatchCreated
+        - BatchUpdated
+        - TemperatureExceeded
+      abis:
+        - name: Contract
+          file: ./abis/Contract.json
+      eventHandlers:
+        - event: BatchCreated(uint256,string,uint256,uint256)
+          handler: handleBatchCreated
+        - event: BatchUpdated(uint256,string)
+          handler: handleBatchUpdated
+        - event: TemperatureExceeded(uint256,uint256)
+          handler: handleTemperatureExceeded
+      file: ./src/contract.ts

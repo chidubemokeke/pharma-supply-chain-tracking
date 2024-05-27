@@ -1,0 +1,14 @@
+type Batch @entity {
+  id: Bytes!
+  manufacturer: String!
+  manufactureDate: BigInt!
+  expiryDate: BigInt!
+  status: String!
+}
+
+type TemperatureEvent @entity {
+  id: Bytes!
+  batchId: String!
+  temperature: BigInt!
+  timestamp: BigInt!
+}

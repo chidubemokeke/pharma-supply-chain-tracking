@@ -1,24 +1,29 @@
-const EventEmitter = require("events"); // Import EventEmitter to create a custom event emitter
+const axios = require("axios"); // We use axios to send HTTP requests
 
-class SensorSimulator extends EventEmitter {
-  constructor() {
-    super(); // Call parent class constructor
-    this.start(); // Start simulation
-  }
+// Define a function to simulate sending sensor data to our server
+async function simulateSensorData() {
+  // Define an array of sample sensor data
+  const sensorData = [
+    { batchId: 1, temperature: 28 },
+    { batchId: 2, temperature: 22 },
+    { batchId: 3, temperature: 35 },
+    // Add more sample data as needed
+  ];
 
-  // Method to start emitting simulated sensor data
-  start() {
-    setInterval(() => {
-      // Generate random sensor data
-      const data = {
-        batchId: Math.floor(Math.random() * 1000), // Random batch ID between 0 and 999
-        temperature: Math.random() * 50, // Random temperature between 0 and 50
-        humidity: Math.random() * 100, // Random humidity between 0 and 100
-        timestamp: Date.now(), // Current timestamp
-      };
-      this.emit("data", data); // Emit 'data' event with generated data
-    }, 5000); // Emit data every 5 seconds
+  // Iterate over each sample data point
+  for (const data of sensorData) {
+    try {
+      // Send a POST request to the server with the sensor data
+      const response = await axios.post(
+        "http://localhost:3000/sensor-data",
+        data
+      ); // Point to your server
+      console.log(response.data); // Log the server's response
+    } catch (error) {
+      console.error("Error sending sensor data:", error); // Log any errors that occur
+    }
   }
 }
 
-module.exports = SensorSimulator; // Export SensorSimulator class
+// Call the simulateSensorData function to start the simulation
+simulateSensorData();
