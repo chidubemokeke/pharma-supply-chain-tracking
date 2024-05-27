@@ -1,115 +1,45 @@
-const express = require("express"); // Import Express framework
-const SensorSimulator = require("./sensorSimulator"); // Import the sensor simulator
-const { ethers,InfuraProvider } = require("ethers"); // Import ethers.js for interacting with the blockchain
-require("dotenv").config(); // Load environment variables from .env file
-const fs = require("fs"); // Import file system module
-const csv = require("csv-parser"); // Import CSV parser module
+const express = require("express"); // We use Express to handle HTTP requests easily
+const { ethers } = require("ethers"); // ethers.js allows us to interact with the Ethereum blockchain
+require("dotenv").config(); // Load environment variables from our .env file for secure and flexible configuration
+const DrugBatch = require("./artifacts/contracts/DrugBatch.sol/DrugBatch.json"); // Import the ABI of our compiled smart contract
 
-const app = express(); // Initialize Express app
-const port = process.env.PORT || 3000; // Set port from environment variables or default to 3000
+const app = express(); // Initialize an Express application
+const port = process.env.PORT || 3000; // Define the port for the server, defaulting to 3000 if not specified
 
-app.use(express.json()); // Middleware to parse JSON requests
+app.use(express.json()); // Use middleware to parse JSON bodies in incoming requests
 
-// In-memory storage for simplicity
-const batches = [];
-
-// Function to read CSV data
-function loadCsvData(filePath) {
-  return new Promise((resolve, reject) => {
-    const results = [];
-    fs.createReadStream(filePath)
-      .pipe(csv())
-      .on("data", (data) => results.push(data))
-      .on("end", () => {
-        resolve(results);
-      })
-      .on("error", (error) => {
-        reject(error);
-      });
-  });
-}
-
-// Function to read JSON data
-function loadJsonData(filePath) {
-  return new Promise((resolve, reject) => {
-    fs.readFile(filePath, "utf8", (err, data) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(JSON.parse(data));
-      }
-    });
-  });
-}
-
-// Endpoint to load sample data
-app.post("/load-sample-data", async (req, res) => {
-  try {
-    const csvData = await loadCsvData("data/drug_batches.csv");
-    const jsonData = await loadJsonData("data/drug_batches.json");
-
-    // Combine data from CSV and JSON (assuming they are structured the same)
-    const combinedData = [...csvData, ...jsonData];
-
-    // Store in in-memory storage (or database in real-world scenarios)
-    combinedData.forEach((batch) => {
-      batches.push(batch);
-    });
-
-    res.status(200).send("Sample data loaded successfully");
-  } catch (error) {
-    console.error("Error loading sample data:", error);
-    res.status(500).send("Failed to load sample data");
-  }
-});
-
-// Endpoint to get all batches
-app.get("/batches", (req, res) => {
-  res.status(200).json(batches);
-});
-
-// Endpoint to receive data from IoT sensors
+// Define a route to handle POST requests at /sensor-data
 app.post("/sensor-data", async (req, res) => {
-  const data = req.body; // Get data from request body
-  console.log("Received sensor data:", data);
+  try {
+    const { batchId, temperature } = req.body; // Extract batchId and temperature from the request body
 
-  // Check if temperature exceeds threshold
-  if (data.temperature > 30) {
-    // Call function to record temperature on blockchain
-    const tx = await recordTemperature(data.batchId, data.temperature);
-    console.log("Temperature exceeded, transaction hash:", tx.hash);
+    // Connect to the Ethereum network via Infura
+    const provider = new ethers.providers.InfuraProvider(
+      "sepolia",
+      "https://sepolia.infura.io/v3/45659e58bfd842309ac5e26ecd083106"
+    ); // Using Sepolia Infura URL
+    const wallet = new ethers.Wallet(
+      "d17533e7ae67bfc4331bdba4de18dc48ca9568333d3d6566fcc793af7fec2682",
+      provider
+    ); // Using provided private key
+    const contract = new ethers.Contract(
+      "0x48fe1507bF707622C1905e97eFed345ad89ccC84",
+      DrugBatch.abi,
+      wallet
+    ); // Create a contract instance with our ABI and contract address
+
+    // Call the smart contract's function to record temperature data
+    const tx = await contract.recordTemperature(batchId, temperature); // This function sends a transaction to record the temperature
+    await tx.wait(); // Wait for the transaction to be mined
+
+    res.send(`Sensor data processed with transaction hash: ${tx.hash}`); // Respond with the transaction hash
+  } catch (error) {
+    console.error(error); // Log any errors for debugging
+    res.status(500).send("Error processing sensor data"); // Respond with a 500 status code if something goes wrong
   }
-
-  res.status(200).send("Sensor data processed"); // Send response to client
 });
 
-// Function to interact with smart contract and record temperature
-async function recordTemperature(batchId, temperature) {
-  const provider = new InfuraProvider(
-    "sepolia",
-    process.env.INFURA_PROJECT_URL
-  ); // Connect to Infura
-  const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider); // Create wallet instance from private key
-  const contractAddress = process.env.CONTRACT_ADDRESS; // Smart contract address
-  const contractABI = require("../sps/abis/DrugBatch.json"); // Import the ABI of the DrugBatch contract
-  const contract = new ethers.Contract(contractAddress, contractABI, wallet); // Create contract instance
-
-  return await contract.recordTemperature(batchId, parseInt(temperature.toFixed(1))); // Call smart contract method
-}
-
-// Start the Express server
+// Start the server and listen on the specified port
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
-
-  const sensorSimulator = new SensorSimulator(); // Initialize sensor simulator
-  sensorSimulator.on("data", async (data) => {
-    // Listen for 'data' events from simulator
-    console.log("Simulated sensor data:", data);
-    try {
-      await recordTemperature(data.batchId, data.temperature); // Record temperature on blockchain
-      console.log("Simulated temperature recorded on blockchain");
-    } catch (error) {
-      console.error("Error recording temperature on blockchain:", error);
-    }
-  });
 });
