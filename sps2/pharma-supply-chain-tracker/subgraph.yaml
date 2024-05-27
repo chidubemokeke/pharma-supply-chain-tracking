@@ -16,9 +16,6 @@ dataSources:
       entities:
         - BatchCreated
         - BatchUpdated
-        - ChainlinkCancelled
-        - ChainlinkFulfilled
-        - ChainlinkRequested
         - TemperatureExceeded
       abis:
         - name: Contract
@@ -28,12 +25,6 @@ dataSources:
           handler: handleBatchCreated
         - event: BatchUpdated(uint256,string)
           handler: handleBatchUpdated
-        - event: ChainlinkCancelled(indexed bytes32)
-          handler: handleChainlinkCancelled
-        - event: ChainlinkFulfilled(indexed bytes32)
-          handler: handleChainlinkFulfilled
-        - event: ChainlinkRequested(indexed bytes32)
-          handler: handleChainlinkRequested
         - event: TemperatureExceeded(uint256,uint256)
           handler: handleTemperatureExceeded
       file: ./src/contract.ts

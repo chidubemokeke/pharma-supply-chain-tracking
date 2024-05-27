@@ -1,6 +1,14 @@
-type ExampleEntity @entity {
+type Batch @entity {
   id: Bytes!
-  count: BigInt!
-  id: BigInt! # uint256
-  manufacturer: String! # string
+  manufacturer: String!
+  manufactureDate: BigInt!
+  expiryDate: BigInt!
+  status: String!
+}
+
+type TemperatureEvent @entity {
+  id: Bytes!
+  batchId: String!
+  temperature: BigInt!
+  timestamp: BigInt!
 }
