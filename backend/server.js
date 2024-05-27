@@ -24,7 +24,7 @@ app.post("/sensor-data", async (req, res) => {
     // Connect to the Ethereum network via Infura
     const provider = new ethers.providers.InfuraProvider(
       "sepolia",
-      "https://sepolia.infura.io/v3/45659e58bfd842309ac5e26ecd083106"
+      "45659e58bfd842309ac5e26ecd083106"
     ); // Using Sepolia Infura URL
     const wallet = new ethers.Wallet(
       "d17533e7ae67bfc4331bdba4de18dc48ca9568333d3d6566fcc793af7fec2682",
