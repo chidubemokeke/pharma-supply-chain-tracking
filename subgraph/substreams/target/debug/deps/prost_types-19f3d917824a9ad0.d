@@ -1,0 +1,10 @@
+/Users/estherliadi/Desktop/pharma-supply-chain-tracking/subgraph/substreams/target/debug/deps/libprost_types-19f3d917824a9ad0.rmeta: /Users/estherliadi/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-types-0.11.9/src/lib.rs /Users/estherliadi/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-types-0.11.9/src/datetime.rs /Users/estherliadi/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-types-0.11.9/src/compiler.rs /Users/estherliadi/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-types-0.11.9/src/protobuf.rs
+
+/Users/estherliadi/Desktop/pharma-supply-chain-tracking/subgraph/substreams/target/debug/deps/libprost_types-19f3d917824a9ad0.rlib: /Users/estherliadi/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-types-0.11.9/src/lib.rs /Users/estherliadi/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-types-0.11.9/src/datetime.rs /Users/estherliadi/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-types-0.11.9/src/compiler.rs /Users/estherliadi/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-types-0.11.9/src/protobuf.rs
+
+/Users/estherliadi/Desktop/pharma-supply-chain-tracking/subgraph/substreams/target/debug/deps/prost_types-19f3d917824a9ad0.d: /Users/estherliadi/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-types-0.11.9/src/lib.rs /Users/estherliadi/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-types-0.11.9/src/datetime.rs /Users/estherliadi/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-types-0.11.9/src/compiler.rs /Users/estherliadi/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-types-0.11.9/src/protobuf.rs
+
+/Users/estherliadi/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-types-0.11.9/src/lib.rs:
+/Users/estherliadi/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-types-0.11.9/src/datetime.rs:
+/Users/estherliadi/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-types-0.11.9/src/compiler.rs:
+/Users/estherliadi/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-types-0.11.9/src/protobuf.rs:
