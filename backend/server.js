@@ -1,7 +1,7 @@
 const express = require("express"); // We use Express to handle HTTP requests easily
 const { ethers } = require("ethers"); // ethers.js allows us to interact with the Ethereum blockchain
 require("dotenv").config(); // Load environment variables from our .env file for secure and flexible configuration
-const DrugBatch = require("./artifacts/contracts/DrugBatch.sol/DrugBatch.json"); // Import the ABI of our compiled smart contract
+const DrugBatch = require("../contracts/artifacts/contracts/DrugBatch.sol/DrugBatch.json"); // Import the ABI of our compiled smart contract
 
 const app = express(); // Initialize an Express application
 const port = process.env.PORT || 3000; // Define the port for the server, defaulting to 3000 if not specified
@@ -12,6 +12,14 @@ app.use(express.json()); // Use middleware to parse JSON bodies in incoming requ
 app.post("/sensor-data", async (req, res) => {
   try {
     const { batchId, temperature } = req.body; // Extract batchId and temperature from the request body
+
+    if (!batchId) {
+      return res.status(400).send('BatchId is required');
+    }
+
+    if (!temperature) {
+      return res.status(400).send('Temperature is required');
+    }
 
     // Connect to the Ethereum network via Infura
     const provider = new ethers.providers.InfuraProvider(
