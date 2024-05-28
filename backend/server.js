@@ -30,17 +30,6 @@ app.post("/sensor-data", async (req, res) => {
       return res.status(400).send('Temperature is required');
     }
 
-    // Connect to the Ethereum network via Infura
-    /*const wallet = new ethers.Wallet(
-      "d17533e7ae67bfc4331bdba4de18dc48ca9568333d3d6566fcc793af7fec2682",
-      provider
-    ); // Using provided private key
-    const contract = new ethers.Contract(
-      "0x48fe1507bF707622C1905e97eFed345ad89ccC84",
-      DrugBatch.abi,
-      wallet
-    ); // Create a contract instance with our ABI and contract address
-*/
     // Call the smart contract's function to record temperature data
     const tx = await contract.recordTemperature(batchId, temperature); // This function sends a transaction to record the temperature
     await tx.wait(); // Wait for the transaction to be mined

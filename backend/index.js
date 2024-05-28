@@ -53,13 +53,13 @@ function getSensorDataStream() {
   // Generate random sensor data every second
   setInterval(() => {
     const data = {
-      batchId: getRandomInt(0, 1), // Random batch ID
+      batchId: getRandomInt(0, 3), // Random batch ID
       temperature: getRandomInt(1, 100), // Random temperature between 0 and 100
       humidity: Math.random() * 100, // Random humidity between 0 and 100
       timestamp: Date.now(), // Current timestamp
     };
     eventEmitter.emit("data", data); // Emit the sensor data
-  }, 10000);
+  }, 24 * 60 * 60 * 1000);
 
   return eventEmitter;
 }
