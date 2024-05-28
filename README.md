@@ -106,6 +106,7 @@ REACT_APP_SUBGRAPH_URL=https://api.thegraph.com/subgraphs/name/yourusername/medi
 1. Navigate to the `frontend` folder and start the React application:
 
    ```sh
+   $env:NODE_OPTIONS = "--openssl-legacy-provider"
    cd frontend
    npm start
    ```

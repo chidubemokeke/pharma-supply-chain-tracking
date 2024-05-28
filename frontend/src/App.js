@@ -91,7 +91,7 @@ function App() {
                 <tbody>
                   {batchesData && batchesData.map((batch) => (
                     <tr key={batch.id}>
-                      <td>{batch.id}</td>
+                      <td>{parseInt(batch.id)}</td>
                       <td>{batch.manufacturer}</td>
                       <td>{new Date(parseInt(batch.manufactureDate)).toLocaleDateString()}</td>
                       <td>{new Date(parseInt(batch.expiryDate)).toLocaleDateString()}</td>
@@ -123,7 +123,7 @@ function App() {
                   {tempEventsData && tempEventsData.map((event) => (
                     <tr key={event.id}>
                       <td>{event.id}</td>
-                      <td>{event.batchId}</td>
+                      <td>{parseInt(event.batchId)}</td>
                       <td>{event.temperature}</td>
                       <td>{new Date(parseInt(event.timestamp)).toLocaleString()}</td>
                     </tr>
