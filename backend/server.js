@@ -55,3 +55,4 @@ app.post("/sensor-data", async (req, res) => {
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
+module.exports = app;
