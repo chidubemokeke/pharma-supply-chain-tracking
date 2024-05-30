@@ -2,22 +2,21 @@
 
 ## Overview
 
-MediChain is a decentralized solution designed to revolutionize supply chain tracking for large-scale distribution companies. Leveraging The Graph and Chainlink, MediChain ensures transparency, security, and efficiency in tracking goods from production to delivery. 
+MediChain is a decentralized application (dApp) designed to track pharmaceutical batches and monitor temperature conditions during their supply chain journey. This project leverages blockchain technology, The Graph, Substreams, and Chainlink to ensure data transparency, integrity, and security.
 
 ## Table of Contents
 
 1. [Overview](#overview)
 2. [Technologies Used](#technologies-used)
-3. [Project Structure](#project-structure)
-4. [Getting Started](#getting-started)
+3. [Getting Started](#getting-started)
    - [Prerequisites](#prerequisites)
    - [Installation](#installation)
    - [Configuration](#configuration)
    - [Deploying the Smart Contract](#deploying-the-smart-contract)
    - [Running the Backend Server](#running-the-backend-server)
    - [Running the Frontend Application](#running-the-frontend-application)
-5. [Usage](#usage)
-6. [GraphQL Queries](#graphql-queries)
+4. [Usage](#usage)
+5. [GraphQL Queries](#graphql-queries)
 
 ## Technologies Used
 
@@ -139,6 +138,33 @@ REACT_APP_SUBGRAPH_URL=https://api.thegraph.com/subgraphs/name/yourusername/medi
 ```graphql
 {
   temperatureEvents {
+    id
+    batchId
+    temperature
+    timestamp
+  }
+}
+```
+
+#### Get Batches By Manufacturer
+
+```graphql
+{
+  batches(where: { manufacturer: $manufacturer }) {
+    id
+    manufacturer
+    manufactureDate
+    expiryDate
+    status
+  }
+}
+```
+
+#### Get Temperature Events By Batch ID
+
+```graphql
+{
+  temperatureEvents(where: { batchId: $batchId }) {
     id
     batchId
     temperature
