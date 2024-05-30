@@ -1,20 +1,82 @@
 .App {
   font-family: Arial, sans-serif;
   text-align: center;
+  padding: 20px;
+  background-color: #f9f9f9;
 }
 
-table {
+.container-fluid {
+  padding: 0;
+}
+
+.bg-dark {
+  background-color: #343a40 !important;
+}
+
+.table {
   width: 80%;
   margin: 20px auto;
   border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 th,
 td {
   border: 1px solid #ddd;
-  padding: 8px;
+  padding: 12px;
 }
 
 th {
   background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+.text-danger {
+  color: #dc3545 !important;
+}
+
+.text-success {
+  color: #28a745 !important;
+}
+
+.form-select {
+  width: 200px;
+  margin-right: 10px;
+}
+
+@media (max-width: 600px) {
+  .table {
+    width: 100%;
+  }
+
+  th,
+  td {
+    padding: 8px;
+  }
+}
+
+.d-flex {
+  display: flex;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.shadow {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }

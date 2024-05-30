@@ -24,3 +24,28 @@ export const GET_TEMPERATURE_EVENTS = gql`
     }
   }
 `;
+
+// Define the GraphQL query to fetch batches by manufacturer
+export const GET_BATCHES_BY_MANUFACTURER = gql`
+  query getBatchesByManufacturer($manufacturer: String!) {
+    batches(where: { manufacturer: $manufacturer }) {
+      id
+      manufacturer
+      manufactureDate
+      expiryDate
+      status
+    }
+  }
+`;
+
+// Define the GraphQL query to fetch temperature events by batch ID
+export const GET_TEMPERATURE_EVENTS_BY_BATCH = gql`
+  query getTemperatureEventsByBatch($batchId: String!) {
+    temperatureEvents(where: { batchId: $batchId }) {
+      id
+      batchId
+      temperature
+      timestamp
+    }
+  }
+`;

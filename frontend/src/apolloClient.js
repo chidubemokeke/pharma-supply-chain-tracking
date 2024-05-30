@@ -3,8 +3,7 @@ import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client"; // Impor
 // Create a new ApolloClient instance
 const client = new ApolloClient({
   link: new HttpLink({
-    uri:
-      "https://api.studio.thegraph.com/query/10965/pharma-supply-chain-tracker/version/latest", // URL to your subgraph
+    uri: "https://api.studio.thegraph.com/query/10965/pharma-supply-chain-tracker/version/latest", // URL to your subgraph
   }),
   cache: new InMemoryCache(), // Use in-memory cache for caching GraphQL results
 });
