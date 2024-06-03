@@ -2,7 +2,7 @@
 
 ## Overview
 
-MediChain is a dApp solution for tracking supply chains in large-scale distribution. It leverages The Graph, Substreams, and Chainlink to ensure transparency and security from production to delivery.
+MediChain is a decentralized solution designed to revolutionize supply chain tracking for large-scale distribution companies. Leveraging advanced blockchain technologies, The Graph, Chainlink, and Substreams, MediChain provides a transparent, secure, and efficient way to track goods from production to delivery. This prototype gives an overview of our solution using the pharmaceutical industry and paracetamol as a use case.
 
 ## Table of Contents
 
