@@ -2,7 +2,7 @@
 
 ## Overview
 
-MediChain is a decentralized application (dApp) designed to track pharmaceutical batches and monitor temperature conditions during their supply chain journey. This project leverages blockchain technology, The Graph, Substreams, and Chainlink to ensure data transparency, integrity, and security.
+MediChain is a dApp solution for tracking supply chains in large-scale distribution. It leverages The Graph, Substreams, and Chainlink to ensure transparency and security from production to delivery.
 
 ## Table of Contents
 
