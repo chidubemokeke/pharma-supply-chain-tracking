@@ -172,3 +172,5 @@ REACT_APP_SUBGRAPH_URL=https://api.thegraph.com/subgraphs/name/yourusername/medi
   }
 }
 ```
+## Demo
+Link to live demo: https://medichain-preview.vercel.app
